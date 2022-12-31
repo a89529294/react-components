@@ -1,5 +1,4 @@
-import React, { ReactNode } from "react";
-import Table from "../components/Table";
+import Table, { Column } from "../components/Table";
 
 export type Fruit = { name: string; color: string; score: number };
 const data: Fruit[] = [
@@ -8,17 +7,19 @@ const data: Fruit[] = [
   { name: "Banana", color: "bg-yellow-500", score: 1 },
   { name: "Lime", color: "bg-green-500", score: 4 },
 ];
-export type Column = { label: string; render: (cell: Fruit) => ReactNode };
-const config: Column[] = [
+
+const config: Column<Fruit>[] = [
   { label: "Name", render: (cell) => cell.name },
   { label: "Color", render: (cell) => <div className={`p-3 m-2 ${cell.color}`}></div> },
   { label: "Score", render: (cell) => cell.score },
 ];
 
+const keyFn = (fruit: Fruit) => fruit.name;
+
 function TablePage() {
   return (
     <div>
-      <Table data={data} config={config} />
+      <Table data={data} config={config} keyFn={keyFn} />
     </div>
   );
 }
