@@ -1,16 +1,14 @@
-import { ReactNode } from "react";
+import { Fragment } from "react";
+import { TableProps } from "./tableTypes";
 
-export type Column<T> = { label: string; render: (cell: T) => ReactNode };
-function Table<T>({
-  data,
-  config,
-  keyFn,
-}: {
-  data: T[]; // rows
-  config: Column<T>[]; // columns
-  keyFn: (row: T) => string; // key of each row
-}) {
-  const renderedHeaders = config.map((col) => <th key={col.label}>{col.label}</th>);
+function Table<T>({ data, config, keyFn }: TableProps<T>) {
+  const renderedHeaders = config.map((col) =>
+    col.header ? (
+      <Fragment key={col.label}>{col.header}</Fragment>
+    ) : (
+      <th key={col.label}>{col.label}</th>
+    )
+  );
   const renderedRows = data.map((row) => (
     <tr className="border-b" key={keyFn(row)}>
       {config.map((col) => (
